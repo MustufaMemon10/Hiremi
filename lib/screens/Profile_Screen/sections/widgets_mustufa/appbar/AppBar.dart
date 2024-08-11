@@ -1,0 +1,84 @@
+import 'package:flutter/material.dart';
+
+import '../../../../../Notofication_screen.dart';
+import '../../../../../Utils/AppSizes.dart';
+import '../../../../../Utils/colors.dart';
+
+
+class SAppbar extends StatelessWidget implements PreferredSizeWidget {
+  const SAppbar({super.key,
+    this.title,
+    this.showBackArrow = false,
+    this.leadingIcon,
+    this.actions,
+    this.leadingOnPressed,
+    required this.scaffoldKey,
+  });
+
+  final String? title;
+  final bool showBackArrow;
+  final IconData? leadingIcon;
+  final List<Widget>? actions;
+  final VoidCallback? leadingOnPressed;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: Colors.white,
+      leading: Padding(
+        padding: EdgeInsets.only(
+            left: Sizes.responsiveDefaultSpace(context),
+            top: Sizes.responsiveSm(context),
+            bottom: Sizes.responsiveSm(context)),
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0),
+              color: AppColors.bgBlue,
+            ),
+            child: Center(
+              child: IconButton(
+                  onPressed: () => scaffoldKey.currentState?.openDrawer(),
+                  icon: const Icon(
+                    Icons.notes_outlined,
+                    size: 22,
+                  )),
+            )),
+      ),
+      title: Text(
+        title!,
+        style: const TextStyle(
+            fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.black),
+      ),
+      centerTitle: true,
+      actions: [
+        Padding(
+          padding: EdgeInsets.only(
+              right: Sizes.responsiveDefaultSpace(context)),
+          child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.bgBlue,
+              ),
+              child: Center(
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (ctx) => const NotificationScreen(),
+                    ));
+                  },
+                  icon: const Icon(Icons.notifications_outlined, size: 24),
+                ),
+              )),
+        ),
+      ],
+    );
+  }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
